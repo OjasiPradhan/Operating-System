@@ -1,0 +1,96 @@
+~~~
+Ques 37
+You will write code for a memory manager, to allocate and deallocate memory
+dynamically. Your memory manager must manage 4KB of memory, by requesting a 4KB page
+via mmap from the OS. You must support allocations and deallocations in sizes that are
+multiples of 8 bytes. You have to create alloc.h and alloc.c . You may define any global data
+structures you need to keep track of memory information in the file alloc.h. This header file also
+defines the following four functions, which you must implement in alloc.c.
+The function init() must initialize the memory manager, including allocating a 4KB page from
+the OS via mmap, and initializing any other data structures required. This function will be
+invokedby the user before requesting any memory from your memory manager. This function
+must return 0 on success and a non-zero error code otherwise.
+The function cleanup() must cleanup state of your manager, and return the memory mapped page
+back to the OS. This function must return 0 on success and a non-zero error code otherwise.
+The function alloc(int) takes an integer buffer size that must be allocated, and returns a
+char*pointer to the buffer on a success. This function returns a NULL on failure (e.g., requested
+size is not a multiple of 8 bytes, or insufficient free space). When successful, the returned pointer
+should point to a valid memory address within the 4KB page of the memory manager.
+The function dealloc(char*) takes a pointer to a previously allocated memory chunk, and frees up
+the entire chunk.
+It is important to note that you must NOT use C library functions like malloc to implement the
+alloc function; instead, you must get a page from the OS via mmap, and implement a
+functionality like malloc yourself. The memory manager can be implemented in many ways. So
+feel free to design and implement it in any way you see fit, subject to the following constraints.
+Your memory manager must make the entire 4KB available for allocations to the user via the
+alloc function. That is, you must not store any headers or metadata information within the page
+itself, that may reduce the amount of usable memory. Any metadata required to keep track of
+allocation sizes should be within data structures defined in your code, and should not be
+embedded within the memory mapped 4KB page itself.
+A memory region once allocated should not be available for future allocations until it is freed up
+by the user. That is, do not double-book your memory, as this can destroy the integrity of the
+data written into it.
+2 Once a memory chunk of size N1 bytes has been deallocated, it must be available for memory
+allocations of size N2 in the future, where N2 <= N1 . Further, if N2 < N1, the leftover chunk of
+size N1- N2 must be available for future allocations. That is, your memory manager must have
+the ability to split a bigger free chunk into smaller chunks for allocations.
+If two free memory chunks of size N1 and N2 are adjacent to each other, a merged memory
+chunk of size N1 + N2 should be available for allocation. That is, you must merge adjacent
+memorychunks and make them available for allocating a larger chunk.
+After a few allocations and deallocations, your 4KB page may contain allocated and free
+chunksinterspersed with each other. When the next request to allocate a chunk arrives, you may
+use any heuristic (e.g., best fit, first fit, worst fit, etc.) to allocate a free chunk, as long as the
+heuristic correctly returns a free chunk if one exists.
+Testing your memory manager
+Alloc.h
+#include <stdio.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <stdlib.h>
+#define PAGESIZE 4096 //size of memory to allocate from OS
+#define MINALLOC 8 //allocations will be 8 bytes or multiples of it
+// You can declare any data structures required here
+// function declarations
+int init();
+int cleanup();
+char *alloc(int);
+void dealloc(char *);
+alloc.c Code
+#include "alloc.h"
+/* Code to allocate page of 4KB size with mmap() call and
+* initialization of other necessary data structures.
+* return 0 on success and 1 on failure (e.g if mmap() fails)
+*/
+int init()
+{
+// Write your code below
+
+}
+/* optional cleanup with munmap() call
+* return 0 on success and 1 on failure (if munmap() fails)
+*/
+int cleanup()
+{
+// Write your code below
+
+}
+/* Function to allocate memory of given size
+* argument: bufSize - size of the buffer
+* return value: on success - returns pointer to starting address of allocated
+memory
+* on failure (not able to allocate) - returns NULL
+*/
+char *alloc(int bufSize)
+{
+// write your code below
+
+}
+/* Function to free the memory
+* argument: takes the starting address of an allocated buffer
+*/
+void dealloc(char *memAddr)
+{
+// write your code below
+}
+~~~
