@@ -42,6 +42,9 @@ chunksinterspersed with each other. When the next request to allocate a chunk ar
 use any heuristic (e.g., best fit, first fit, worst fit, etc.) to allocate a free chunk, as long as the
 heuristic correctly returns a free chunk if one exists.
 Testing your memory manager
+
+
+
 Alloc.h
 #include <stdio.h>
 #include <string.h>
@@ -56,6 +59,9 @@ int init();
 int cleanup();
 char *alloc(int);
 void dealloc(char *);
+
+
+
 alloc.c Code
 #include "alloc.h"
 /* Code to allocate page of 4KB size with mmap() call and
